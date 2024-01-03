@@ -23,15 +23,17 @@ def getMangaMainPageHtml(ID):
 def getMangaChapterImage(manga,ch):
     if manga.Chapter.get(ch)==None:
         return False
-    path = projectPath+"\\mangaImage\\"+str(manga.ID)
+    path = projectPath+"\\mangaImage\\"
     if not os.path.isdir(path):
-        print(path)
+        os.mkdir(path)
+    path+=str(manga.ID)
+    if not os.path.isdir(path):
         os.mkdir(path)
     path+="\\"+str(ch)
     if not os.path.isdir(path): 
         os.mkdir(path)
         for i in range(1,manga.Chapter[ch]+1):
-            url="https://cc.fun8.us//2e5fc/"+str(manga.ID)+"/"+str(ch)+"/"+str(i).zfill(3)+".jpg"
+            url="https://cc.fun8.us//2e5fc/"+str(manga.ID)+"/"+str(ch).zfill(3)+"/"+str(i).zfill(3)+".jpg"
             dir=path+"\\"+str(i)+".jpg"
             try:
                 urllib.request.urlretrieve(url,dir)
