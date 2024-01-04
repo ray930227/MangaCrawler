@@ -11,5 +11,5 @@ git clone git@github.com:ray930227/MangaCrawler.git
 ```
 **運行專案**  
 ```
-python ./main.py <漫畫名稱>
+python ./MangaCrawler.py <漫畫名稱>
 ```
