@@ -10,8 +10,16 @@
 git clone git@github.com:ray930227/MangaCrawler.git
 ```
 - 請確保專案路徑不包含中文
-      
+
+運行
+===
 **運行專案**  
 ```
 python ./MangaCrawler.py <漫畫名稱>
 ```
+
+**更新漫畫列表**  
+```
+python ./getMangaID.py
+```
+- 更新需花費長時間，設備不好不建議更新，github上的mangaList會不定期更新，直接下載覆蓋即可
