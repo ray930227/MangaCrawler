@@ -9,6 +9,7 @@
 ```
 git clone git@github.com:ray930227/MangaCrawler.git
 ```
+:::info\n請確保專案路徑不包含中文\n:::
 **運行專案**  
 ```
 python ./MangaCrawler.py <漫畫名稱>
