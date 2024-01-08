@@ -41,6 +41,10 @@ def getMangaChapterImage(manga,ch):
                 pass
     return True
 
+def getMangaChapterImageURL(manga,ch):
+    for i in range(1,manga.Chapter[ch]+1):
+        url="https://cc.fun8.us//2e5fc/"+str(manga.ID)+"/"+str(ch).zfill(3)+"/"+str(i).zfill(3)+".jpg"
+
 def getMangaByID(ID):
     for i in mangaList:
         if i.ID==ID:
@@ -102,7 +106,7 @@ def main():
         else:
             print("please wait.")
             if getMangaChapterImage(manga,chapter):
-                print("Download completed.")
+                print(f"Download in \"MangaImage\\{manga.ID}\\{chapter}\" completed.")
             else:
                 print("Download failed.")
 main()
