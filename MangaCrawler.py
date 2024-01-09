@@ -78,7 +78,7 @@ def searchMangaByName(Name):
     with open(projectPath+'\\mangaList.txt', 'r',encoding='utf-8') as f:
         for i in f.readlines():
             temp=i.strip().split(":")
-            if temp[1].find(Name)!=-1:
+            if len(temp)==2 and temp[1].find(Name)!=-1:
                 result.append(temp[1])
     return result
 
