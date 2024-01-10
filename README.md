@@ -11,7 +11,7 @@
 ```
 pip install requests
 ```
-**bs4**
+**Beautiful Soup**
 ```
 pip install bs4
 ```
