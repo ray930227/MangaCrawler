@@ -3,6 +3,9 @@ import requests
 from bs4 import BeautifulSoup
 import os
 import sys
+import threading
+from progress.bar import Bar
+import time
 
 projectPath=os.path.dirname(os.path.abspath(__file__))
 
@@ -32,18 +35,26 @@ def getMangaChapterImage(manga,ch):
     path+="\\"+str(ch)
     if not os.path.isdir(path): 
         os.mkdir(path)
-        for i in range(1,manga.Chapter[ch]+1):
-            url="https://cc.fun8.us//2e5fc/"+str(manga.ID)+"/"+str(ch).zfill(3)+"/"+str(i).zfill(3)+".jpg"
-            dir=path+"\\"+str(i)+".jpg"
-            try:
-                urllib.request.urlretrieve(url,dir)
-            except:
-                pass
+        with Bar(f'Loading chapter{ch}...') as bar:
+            count=0
+            for i in range(1,manga.Chapter[ch]+1):
+                url="https://cc.fun8.us//2e5fc/"+str(manga.ID)+"/"+str(ch).zfill(3)+"/"+str(i).zfill(3)+".jpg"
+                dir=path+"\\"+str(i)+".jpg"
+                try:
+                    urllib.request.urlretrieve(url,dir)
+                except:
+                    pass
+                for j in range(100//manga.Chapter[ch]):
+                    bar.next()
+                    count+=1
+            for i in range(100-count):
+                bar.next()
+    else:
+        with Bar(f'Loading chapter{ch}...') as bar:
+            for i in range(100):
+                time.sleep(0.02)
+                bar.next()
     return True
-
-def getMangaChapterImageURL(manga,ch):
-    for i in range(1,manga.Chapter[ch]+1):
-        url="https://cc.fun8.us//2e5fc/"+str(manga.ID)+"/"+str(ch).zfill(3)+"/"+str(i).zfill(3)+".jpg"
 
 def getMangaByID(ID):
     for i in mangaList:
@@ -82,6 +93,10 @@ def searchMangaByName(Name):
                 result.append(temp[1])
     return result
 
+def download(manga,chapter):
+    print(f"Download {manga.Name}'s chapter{chapter} in \"MangaImage\\{manga.ID}\\{chapter}\" completed.")
+    print(f"Download {manga.Name}'s chapter{chapter} failed.")
+
 def main():
     if len(sys.argv)<2:
         print('No argument')
@@ -99,14 +114,19 @@ def main():
         manga=getMangaByName(search[int(input())-1])
         chapterList=[i for i in manga.Chapter.keys()]
         print(manga.Name,"'s Chapters range is ",chapterList[0],"~",chapterList[-1],sep="")
-        print("Choose one Chapter.")
-        chapter=int(input())
-        if chapter<chapterList[0] or chapter>chapterList[-1]:
-            print(chapter,"not in range.")
-        else:
-            print("please wait.")
-            if getMangaChapterImage(manga,chapter):
-                print(f"Download in \"MangaImage\\{manga.ID}\\{chapter}\" completed.")
-            else:
-                print("Download failed.")
+        chapterStart=int(input("Choose start Chapter:"))
+        if chapterStart<chapterList[0] or chapterStart>chapterList[-1]:
+            print(chapterStart,"not in range.")
+            return
+        chapterEnd=int(input("Choose end Chapter:"))
+        if chapterEnd<chapterList[0] or chapterEnd>chapterList[-1]:
+            print(chapterEnd,"not in range.")
+            return
+        if chapterEnd<chapterStart:
+            print("end Chapternot should bigger then start Chapter.")
+            return
+        print("please wait.")
+        for i in range(chapterStart,chapterEnd+1):
+            getMangaChapterImage(manga,i)
+        print("All process finished.")
 main()
