@@ -2,7 +2,23 @@
 ===
 - [x] 根據輸入搜尋漫畫
 - [x] 爬取漫畫圖片
-      
+
+需求
+===
+以下python需要安裝，否則程式無法運行
+**requests** 
+```
+pip install requests
+```
+**bs4**
+```
+pip install bs4
+```
+**progress**
+```
+pip install progress
+```
+
 安裝
 ===
 **取得專案**  
