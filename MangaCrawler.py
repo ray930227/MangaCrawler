@@ -35,8 +35,7 @@ def getMangaChapterImage(manga,ch):
     path+="\\"+str(ch)
     if not os.path.isdir(path): 
         os.mkdir(path)
-        with Bar(f'Loading chapter{ch}...') as bar:
-            count=0
+        with Bar(f'Loading chapter{ch}...',max=manga.Chapter[ch]) as bar:
             for i in range(1,manga.Chapter[ch]+1):
                 url="https://cc.fun8.us//2e5fc/"+str(manga.ID)+"/"+str(ch).zfill(3)+"/"+str(i).zfill(3)+".jpg"
                 dir=path+"\\"+str(i)+".jpg"
@@ -44,15 +43,11 @@ def getMangaChapterImage(manga,ch):
                     urllib.request.urlretrieve(url,dir)
                 except:
                     pass
-                for j in range(100//manga.Chapter[ch]):
-                    bar.next()
-                    count+=1
-            for i in range(100-count):
                 bar.next()
     else:
-        with Bar(f'Loading chapter{ch}...') as bar:
-            for i in range(100):
-                time.sleep(0.02)
+        with Bar(f'Loading chapter{ch}...',max=manga.Chapter[ch]) as bar:
+            for i in range(manga.Chapter[ch]):
+                time.sleep(0.01)
                 bar.next()
     return True
 
